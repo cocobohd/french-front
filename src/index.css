@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+@import 'react-international-phone/style.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#root {
+    @apply !font-default;
+}
+
+@layer base {
+    :root {
+        --radius: 0.5rem;
+    }
+}
+
+.react-international-phone-country-selector-button {
+    background-color: transparent;
+    border: none;
+}
+
+.react-international-phone-input-container .react-international-phone-input {
+    padding: 0;
+    padding-left: 10px;
+    background-color: transparent;
+    border: none;
+    width: 100%;
+    font-size: 16px;
+}
