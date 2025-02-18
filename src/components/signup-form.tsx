@@ -14,13 +14,18 @@ import {
 import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { PhoneInput } from 'react-international-phone'
+import { useSignUp } from '@/api'
 
 interface FieldInterface {
-    name: 'email' | 'phone' | 'password'
+    name: 'email' | 'phone' | 'password' | 'name'
     label: string
 }
 
 const fields: FieldInterface[] = [
+    {
+        name: 'name',
+        label: 'Name',
+    },
     {
         name: 'email',
         label: 'Email',
@@ -36,9 +41,12 @@ const fields: FieldInterface[] = [
 ]
 
 export const SignupForm = () => {
+    const { mutateAsync: signUpAsync } = useSignUp()
+
     const form = useForm<z.infer<typeof SignupFormSchema>>({
         resolver: zodResolver(SignupFormSchema),
         defaultValues: {
+            name: '',
             email: '',
             phone: '',
             password: '',
@@ -47,6 +55,7 @@ export const SignupForm = () => {
 
     function onSubmit(values: z.infer<typeof SignupFormSchema>) {
         console.log(values)
+        signUpAsync(values)
     }
 
     const renderFormField = useCallback(
