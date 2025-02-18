@@ -1,7 +1,16 @@
 import axios from 'axios'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { useStore } from '@/store'
-import { CountryInfo } from '@/types'
+import { CountryInfo, signUpData } from '@/types'
+import { useNavigate } from 'react-router-dom'
+import { PublicRoutes } from '@/types/router.enum'
+
+const apiBackend = axios.create({
+    baseURL: 'https://french-backend.onrender.com',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+})
 
 const api = axios.create({
     baseURL: 'http://ip-api.com',
@@ -45,6 +54,24 @@ export const useGetCountry = (ip: string) => {
             onSuccess: (data: CountryInfo) => {
                 setCountryInfo(data)
             },
+        },
+    })
+}
+
+const signUp = async (signUpData: signUpData) => {
+    const { data } = await apiBackend.post('/auth/signup', signUpData)
+    return data
+}
+
+export const useSignUp = () => {
+    const navigate = useNavigate()
+
+    return useMutation({
+        mutationKey: ['SignUp'],
+        mutationFn: (signUpData: signUpData) => signUp(signUpData),
+        onSuccess: () => {
+            console.log('sign up')
+            navigate(PublicRoutes.LOGIN)
         },
     })
 }
