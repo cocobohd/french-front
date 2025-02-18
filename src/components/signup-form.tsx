@@ -54,7 +54,6 @@ export const SignupForm = () => {
     })
 
     function onSubmit(values: z.infer<typeof SignupFormSchema>) {
-        console.log(values)
         signUpAsync(values)
     }
 

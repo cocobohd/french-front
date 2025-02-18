@@ -5,4 +5,6 @@ export enum PublicRoutes {
     FORGOT_PASSWORD = '/ForgotPassword',
 }
 
-export enum PrivateRoutes {}
+export enum PrivateRoutes {
+    WELCOME = '/Welcome',
+}
