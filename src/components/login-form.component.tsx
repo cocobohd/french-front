@@ -15,6 +15,8 @@ import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { PublicRoutes } from '@/types/router.enum'
 import { useNavigate } from 'react-router-dom'
+import { useLogin } from '@/api'
+import { setTokentToLocalStorage } from '@/utils/set-tokens'
 
 interface FieldInterface {
     name: 'email' | 'password'
@@ -35,6 +37,8 @@ const fields: FieldInterface[] = [
 export const LoginForm = () => {
     const navigate = useNavigate()
 
+    const { mutateAsync: loginAsync } = useLogin()
+
     const form = useForm<z.infer<typeof LoginFormSchema>>({
         resolver: zodResolver(LoginFormSchema),
         defaultValues: {
@@ -43,8 +47,10 @@ export const LoginForm = () => {
         },
     })
 
-    function onSubmit(values: z.infer<typeof LoginFormSchema>) {
-        console.log(values)
+    async function onSubmit(values: z.infer<typeof LoginFormSchema>) {
+        const res = await loginAsync(values)
+        setTokentToLocalStorage(res)
+        console.log(res)
     }
 
     const renderFormField = useCallback(

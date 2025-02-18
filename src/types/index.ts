@@ -20,9 +20,14 @@ export interface StoreState {
     setName: (ip: string) => void
 }
 
-export interface signUpData {
+export interface SignUpData {
     name: string
     email: string
     phone: string
+    password: string
+}
+
+export interface LoginData {
+    email: string
     password: string
 }

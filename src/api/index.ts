@@ -1,9 +1,9 @@
 import axios from 'axios'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useStore } from '@/store'
-import { CountryInfo, signUpData } from '@/types'
+import { CountryInfo, LoginData, SignUpData } from '@/types'
 import { useNavigate } from 'react-router-dom'
-import { PublicRoutes } from '@/types/router.enum'
+import { PrivateRoutes, PublicRoutes } from '@/types/router.enum'
 
 const apiBackend = axios.create({
     baseURL: 'https://french-backend.onrender.com',
@@ -58,7 +58,7 @@ export const useGetCountry = (ip: string) => {
     })
 }
 
-const signUp = async (signUpData: signUpData) => {
+const signUp = async (signUpData: SignUpData) => {
     const { data } = await apiBackend.post('/auth/signup', signUpData)
     return data
 }
@@ -68,10 +68,28 @@ export const useSignUp = () => {
 
     return useMutation({
         mutationKey: ['SignUp'],
-        mutationFn: (signUpData: signUpData) => signUp(signUpData),
+        mutationFn: (signUpData: SignUpData) => signUp(signUpData),
         onSuccess: () => {
             console.log('sign up')
             navigate(PublicRoutes.LOGIN)
+        },
+    })
+}
+
+const login = async (loginData: LoginData) => {
+    const { data } = await apiBackend.post('/auth/login', loginData)
+    return data
+}
+
+export const useLogin = () => {
+    const navigate = useNavigate()
+
+    return useMutation({
+        mutationKey: ['Login'],
+        mutationFn: (loginData: LoginData) => login(loginData),
+        onSuccess: () => {
+            console.log('login')
+            navigate(PrivateRoutes.WELCOME)
         },
     })
 }
