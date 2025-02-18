@@ -1,25 +1,19 @@
+import { PublicRoutes } from '@/types/router.enum'
+import { Link } from 'react-router-dom'
+
 export const Home = () => {
     return (
         <>
             <nav>
                 <ul>
                     <li>
-                        <a href="">open</a>
+                        <Link to={PublicRoutes.LOGIN}>Login</Link>
                     </li>
                     <li>
-                        <a href="">open</a>
-                    </li>
-                    <li>
-                        <a href="">open</a>
+                        <Link to={PublicRoutes.SIGNUP}>Sign Up</Link>
                     </li>
                 </ul>
             </nav>
-            <header>my header</header>
-            <main>
-                <section>section 1</section>
-                <section>section 2</section>
-            </main>
-            <footer>footer</footer>
         </>
     )
 }
