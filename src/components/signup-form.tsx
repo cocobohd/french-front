@@ -15,6 +15,7 @@ import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { PhoneInput } from 'react-international-phone'
 import { useSignUp } from '@/api'
+import { Loader } from './loader.components'
 
 interface FieldInterface {
     name: 'email' | 'phone' | 'password' | 'name'
@@ -41,7 +42,7 @@ const fields: FieldInterface[] = [
 ]
 
 export const SignupForm = () => {
-    const { mutateAsync: signUpAsync } = useSignUp()
+    const { mutateAsync: signUpAsync, isPending: SignUpPending } = useSignUp()
 
     const form = useForm<z.infer<typeof SignupFormSchema>>({
         resolver: zodResolver(SignupFormSchema),
@@ -96,14 +97,20 @@ export const SignupForm = () => {
     )
 
     return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-                {fields.map(renderFormField)}
+        <>
+            {SignUpPending && <Loader />}
+            <Form {...form}>
+                <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="space-y-5"
+                >
+                    {fields.map(renderFormField)}
 
-                <Button type="submit" className="w-full p-6 rounded-2xl">
-                    Signup
-                </Button>
-            </form>
-        </Form>
+                    <Button type="submit" className="w-full p-6 rounded-2xl">
+                        Signup
+                    </Button>
+                </form>
+            </Form>
+        </>
     )
 }

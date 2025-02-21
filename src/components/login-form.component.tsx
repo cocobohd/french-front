@@ -17,6 +17,7 @@ import { PublicRoutes } from '@/types/router.enum'
 import { useNavigate } from 'react-router-dom'
 import { useLogin } from '@/api'
 import { setTokentToLocalStorage } from '@/utils/set-tokens'
+import { Loader } from './loader.components'
 
 interface FieldInterface {
     name: 'email' | 'password'
@@ -37,7 +38,7 @@ const fields: FieldInterface[] = [
 export const LoginForm = () => {
     const navigate = useNavigate()
 
-    const { mutateAsync: loginAsync } = useLogin()
+    const { mutateAsync: loginAsync, isPending: LoginPending } = useLogin()
 
     const form = useForm<z.infer<typeof LoginFormSchema>>({
         resolver: zodResolver(LoginFormSchema),
@@ -81,21 +82,29 @@ export const LoginForm = () => {
     )
 
     return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-                {fields.map(renderFormField)}
-                <div className="w-full flex justify-end">
-                    <button
-                        onClick={() => navigate(PublicRoutes.FORGOT_PASSWORD)}
-                        className="text-base text-gray text-opacity-70 font-bold"
-                    >
-                        Forgot Password
-                    </button>
-                </div>
-                <Button type="submit" className="w-full p-6 rounded-2xl">
-                    Login
-                </Button>
-            </form>
-        </Form>
+        <>
+            {LoginPending && <Loader />}
+            <Form {...form}>
+                <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="space-y-5"
+                >
+                    {fields.map(renderFormField)}
+                    <div className="w-full flex justify-end">
+                        <button
+                            onClick={() =>
+                                navigate(PublicRoutes.FORGOT_PASSWORD)
+                            }
+                            className="text-base text-gray text-opacity-70 font-bold"
+                        >
+                            Forgot Password
+                        </button>
+                    </div>
+                    <Button type="submit" className="w-full p-6 rounded-2xl">
+                        Login
+                    </Button>
+                </form>
+            </Form>
+        </>
     )
 }

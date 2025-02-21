@@ -4,6 +4,7 @@ import { useStore } from '@/store'
 import { CountryInfo, LoginData, SignUpData } from '@/types'
 import { useNavigate } from 'react-router-dom'
 import { PrivateRoutes, PublicRoutes } from '@/types/router.enum'
+import { toast } from 'react-toastify'
 
 const apiBackend = axios.create({
     baseURL: 'https://french-backend.onrender.com',
@@ -66,13 +67,17 @@ const signUp = async (signUpData: SignUpData) => {
 export const useSignUp = () => {
     const navigate = useNavigate()
 
+    const notifySuccess = () => toast.success('Account created, login please!')
+    const notifyError = (text: string) => toast.error(text)
+
     return useMutation({
         mutationKey: ['SignUp'],
         mutationFn: (signUpData: SignUpData) => signUp(signUpData),
         onSuccess: () => {
-            console.log('sign up')
+            notifySuccess()
             navigate(PublicRoutes.LOGIN)
         },
+        onError: (e) => notifyError(e.message),
     })
 }
 
@@ -83,13 +88,16 @@ const login = async (loginData: LoginData) => {
 
 export const useLogin = () => {
     const navigate = useNavigate()
+    const notifySuccess = () => toast.success('Welcome!')
+    const notifyError = (text: string) => toast.error(text)
 
     return useMutation({
         mutationKey: ['Login'],
         mutationFn: (loginData: LoginData) => login(loginData),
         onSuccess: () => {
-            console.log('login')
+            notifySuccess()
             navigate(PrivateRoutes.WELCOME)
         },
+        onError: (e) => notifyError(e.message),
     })
 }

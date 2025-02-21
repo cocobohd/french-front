@@ -1,3 +1,4 @@
+import { NavMenu } from '@/components/navigation.component'
 import { Home } from '@/pages/home.page'
 import { Login } from '@/pages/login.page'
 import { Signup } from '@/pages/signup.page'
@@ -39,9 +40,10 @@ export const routes = [
     {
         path: PublicRoutes.HOME,
         element: (
-            <div className="flex justify-center">
+            <>
+                <NavMenu />
                 <Outlet />
-            </div>
+            </>
         ),
         children: routerElements.map(renderRoutes),
     },
