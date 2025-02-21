@@ -1,14 +1,7 @@
-import { Link } from 'react-router-dom'
-import { Button } from '@/components/ui/button'
-import { PublicRoutes } from '@/types/router.enum'
-
-import Icon from '@/assets/images/icon.png'
-
 import Image1 from '@/assets/images/home-page.jpg'
 import Image2 from '@/assets/images/health.jpg'
 import Image3 from '@/assets/images/training.jpg'
 import Image4 from '@/assets/images/community.jpg'
-import { NavMenu } from '@/components/navigation.component'
 import { FeaturesItemInterface } from '@/types'
 import { AuthButtons } from '@/components/auth-buttons.component'
 
