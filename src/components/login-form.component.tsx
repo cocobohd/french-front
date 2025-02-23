@@ -51,7 +51,6 @@ export const LoginForm = () => {
     async function onSubmit(values: z.infer<typeof LoginFormSchema>) {
         const res = await loginAsync(values)
         setTokentToLocalStorage(res)
-        console.log(res)
     }
 
     const renderFormField = useCallback(

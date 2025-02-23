@@ -6,8 +6,6 @@ export const ProtectRoute = ({ children }: PropsWithChildren) => {
     const location = useLocation()
     const token = localStorage.getItem('accessToken')
 
-    console.log(token)
-
     if (!token) {
         return (
             <Navigate
